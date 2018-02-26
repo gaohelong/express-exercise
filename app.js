@@ -20,7 +20,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'))); // 访问地址->http://localhost:3000/images/avatar.png.
+// app.use('/static', express.static(path.join(__dirname, 'public'))); // 指定一个虚拟目录, 访问地址->http://localhost:3000/static/images/avatar.png.
 
 app.use('/', index);
 app.use('/users', users);
