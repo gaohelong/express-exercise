@@ -11,6 +11,7 @@ const about = require('./routes/about');
 const handles = require('./routes/handles');
 const download = require('./routes/download');
 const res = require('./routes/res');
+const routerMatching = require('./routes/routerMatching');
 
 let app = express();
 
@@ -33,6 +34,7 @@ app.use('/about', about);
 app.use('/handles', handles);
 app.use('/download', download);
 app.use('/res', res);
+app.use(routerMatching);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
