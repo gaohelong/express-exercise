@@ -12,6 +12,7 @@ const handles = require('./routes/handles');
 const download = require('./routes/download');
 const res = require('./routes/res');
 const routerMatching = require('./routes/routerMatching');
+const routerHandle = require('./routes/routerHandle');
 
 let app = express();
 
@@ -28,13 +29,25 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'))); // 访问地址->http://localhost:3000/images/avatar.png.
 // app.use('/static', express.static(path.join(__dirname, 'public'))); // 指定一个虚拟目录, 访问地址->http://localhost:3000/static/images/avatar.png.
 
+/* router */
 app.use('/', index);
 app.use('/users', users);
 app.use('/about', about);
 app.use('/handles', handles);
 app.use('/download', download);
 app.use('/res', res);
-app.use(routerMatching);
+
+// app.use(routerMatching);
+app.use('/match', routerMatching);
+
+app.route('/route/:id')
+    .get(function(req, res) {
+        res.send(`route get ${JSON.stringify(req.params)}`);
+    })
+    .post(function(req, res) {
+        res.send('route post');
+    });
+app.use('/china', routerHandle);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
