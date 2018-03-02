@@ -1,6 +1,7 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const crypto = require('../tools/crypto');
+const mysqlIpListProc = require('../component/dataProc/mysqlIpList');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -12,5 +13,26 @@ router.get('/', function(req, res, next) {
 // router.all('/', function(req, res, next) {
 //     res.render('index', { title: 'Express' , cipher: 'all'});
 // });
+
+/* mysql */
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: 'root',
+	database: 'cdn_test'
+});
+connection.connect();
+connection.query('SELECT * FROM ip ORDER BY id DESC LIMIT 2', function(err, res, fields) {
+    if (err) throw err;
+
+	if (res == '') {
+		console.log('not data');
+	} else {
+        let procRes = mysqlIpListProc.listProc(res);
+        console.log(procRes);
+	}
+});
+connection.end();
 
 module.exports = router;
